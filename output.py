@@ -16,4 +16,4 @@ if __name__ == "__main__":
             recv_data = conn.recv(1024)
             if not recv_data:
                 break
-            print(recv_data)
+            print(recv_data.decode())
