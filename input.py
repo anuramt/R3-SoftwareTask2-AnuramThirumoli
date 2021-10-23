@@ -1,6 +1,18 @@
 import pygame
 import socket
 
+def format_command(direction, speed):
+    if direction == '' or speed == 0:
+        return '[f0][f0][f0][f0]'
+    elif direction == 'w':
+        return "[f{}][f{}][f{}][f{}]".format(speed*51, speed*51, speed*51, speed*51)
+    elif direction == 's':
+        return "[r{}][r{}][r{}][r{}]".format(speed*51, speed*51, speed*51, speed*51)
+    elif direction == 'a':
+        return "[r{}][r{}][f{}][f{}]".format(speed*51, speed*51, speed*51, speed*51)
+    elif direction == 'd':
+        return "[f{}][f{}][r{}][r{}]".format(speed*51, speed*51, speed*51, speed*51)
+
 if __name__ == "__main__":
     pygame.init()
 
@@ -43,7 +55,7 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 speed = 0
-                client.sendall(str(speed).encode())
+                client.sendall(format_command(direction, speed))
                 client.close()
 
                 pygame.quit()
@@ -57,8 +69,7 @@ if __name__ == "__main__":
         for valid_directions in direction_inputs:
             if pygame.key.get_pressed()[valid_directions]:
                 direction = direction_inputs[valid_directions]
-        
-        client.sendall(direction.encode())
-        client.sendall(str(speed).encode())
+
+        client.sendall(format_command(direction, speed).encode())
 
         pygame.display.flip()
