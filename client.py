@@ -12,7 +12,6 @@ while True:
             pygame.quit()
             exit()
 
-   
         if pygame.key.get_pressed()[pygame.K_w]:
             print("Forward")
         elif pygame.key.get_pressed()[pygame.K_s]:
@@ -21,7 +20,6 @@ while True:
             print("Left")
         elif pygame.key.get_pressed()[pygame.K_d]:
             print("Right")
-    
     
     screen.fill(color_white)
     pygame.display.flip()
