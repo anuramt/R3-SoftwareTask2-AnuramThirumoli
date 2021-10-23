@@ -32,10 +32,10 @@ if __name__ == "__main__":
     }
 
     HOST = '127.0.0.1'  # standard loopback interface (localhost)
-    PORT = 21420        # port to listen on (non-privileged ports are > 1023)
+    PORT = 65432        # port to listen on (non-privileged ports are 1024 to 65535)
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
-        client.connect((HOST, PORT))
+    client =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect((HOST, PORT))
 
     while True:
         direction = ''
@@ -54,9 +54,9 @@ if __name__ == "__main__":
                     if event.key == valid_speeds:
                         speed = speed_inputs[valid_speeds]
 
-            for valid_directions in direction_inputs:
-                if pygame.key.get_pressed()[valid_directions]:
-                    direction = direction_inputs[valid_directions]
+        for valid_directions in direction_inputs:
+            if pygame.key.get_pressed()[valid_directions]:
+                direction = direction_inputs[valid_directions]
         
         client.sendall(direction.encode())
         client.sendall(str(speed).encode())
