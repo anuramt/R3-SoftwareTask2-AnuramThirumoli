@@ -4,4 +4,7 @@ Program written for R3 Software Task 2. Using keyboard input, sends a formatted 
 **1. The Client (input.py)**
 **2. The Server (output.py)**
 
-**THANK YOU FOR READING!** You can find the demonstrative video under the master branch named **:
+**THANK YOU FOR READING!** You can find the demonstrative video under the master branch, or below:
+
+https://user-images.githubusercontent.com/59899086/138617054-7b25e987-eb7a-4d34-a9f2-26be59e82ad7.mp4
+
