@@ -2,7 +2,7 @@
 Name:           Anuram Thirumoli
 Date:           October 24th, 2021
 Language:       Python
-Project:        R3 - Software Task 2 (input.py) (client)
+Project:        R3 - Software Task 2 (input.py) (server)
 Description:    Program written for R3 Software Task 2. Using keyboard input, sends a
                 formatted command using TCP to a rover that has 4 wheels. Send the command
                 from a client (input and command formatting) program over to the rover
