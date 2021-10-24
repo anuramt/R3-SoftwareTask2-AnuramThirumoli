@@ -1,7 +1,17 @@
-import pygame
-import socket
+import pygame   # to get keyboard input
+import socket   # to sent data over network using TCP
+
 
 def format_command(direction, speed):
+    """
+    Input:  direction,  characters wasd used to determine how the motors will turn (forward
+                        or backwards) to achieve rover motion
+            speed,      integer ranging from 0 to 5, used to control speed with PWM
+    Uses direction characters wasd and speed from 0 to 5 to determine each motors turning
+    direction and the speed using PWM. Returns a string with the formatted command for the
+    rover to use to control the motors.
+    """
+
     if direction == '' or speed == 0:
         return '[f0][f0][f0][f0]'
     elif direction == 'w':
@@ -13,11 +23,14 @@ def format_command(direction, speed):
     elif direction == 'd':
         return "[f{}][f{}][r{}][r{}]".format(speed*51, speed*51, speed*51, speed*51)
 
+
 if __name__ == "__main__":
     pygame.init()
 
-    clock = pygame.time.Clock()
-    screen = pygame.display.set_mode((500, 500), 0, 32)
+    screen = pygame.display.set_mode((100, 100))    # sets the size of the pygame window
+    clock = pygame.time.Clock()     # initialize clock, controls speed of window updates
+
+    color_blue = (0, 177, 247)      # used to fill window so users can identify input window
 
     direction = ''
     direction_inputs = {
@@ -55,11 +68,11 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 speed = 0
-                client.sendall(format_command(direction, speed))
+                client.sendall(format_command(direction, speed).encode())
                 client.close()
 
                 pygame.quit()
-                break
+                exit()
             
             if event.type == pygame.KEYDOWN:
                 for valid_speeds in speed_inputs:
@@ -72,4 +85,5 @@ if __name__ == "__main__":
 
         client.sendall(format_command(direction, speed).encode())
 
+        screen.fill(color_blue)
         pygame.display.flip()
