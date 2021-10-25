@@ -207,7 +207,7 @@ with data_socket:
 **4. Ensuring the program works:** \
 This program only uses keyboard inputs! Also, ensure the program works by first starting the server (output.py), then starting the client (input.py). This is because the client will encounter an error if it does not connect to a server. 
 
-**5. So, how is this README relevant to my project?**
+**5. So, how is this README relevant to my project?** \
 Well, this README will allow you to understand the project's code. This README is a step by step reasoning of the implementation of variables, functions, libraries etc. used. Read this as a plain English version of the code.
 
 **THANK YOU FOR READING!** You can find the demonstrative video to download under the master branch, or watch below:
