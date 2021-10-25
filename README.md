@@ -8,6 +8,36 @@ import pygame   # to get keyboard input
 import socket   # to sent data over network using TCP (to server program)
 ```
 
+The program uses one custom function called *format_command*. It use is to return a formatted string that we can send to the rover. The rover then uses the command to control its four motors using PWM. *format_command* takes two parameters: *direction* and *speed*. *direction* is the characters wasd which are used ot determine how the four motors will turn (forwards or backwards) to achieve the desired rover motion. *speed* is an integer ranging from 0 to 5 (inclusive) which sets the speed of the motor. The function checks what direction and what speed is being passed as arguments to the function and uses if statments to determine the motion of the motors and the PWM speed.
+```
+if direction == '' or speed == 0:   # no movement
+def format_command(direction, speed):
+    """
+    Input:  direction,  characters wasd used to determine how the four motors will turn
+                        (forward or backwards) to achieve rover motion
+            speed,      integer ranging from 0 to 5, used to control speed with PWM
+    Uses direction characters wasd and speed from 0 to 5 to determine each motors turning
+    direction and the speed using PWM. Returns a string with the formatted command for the
+    rover to use to control the four motors.
+    """
+
+    if direction == '' or speed == 0:   # no movement
+        return '[f0][f0][f0][f0]'
+
+    elif direction == 'w':          # moving forward
+        return "[f{}][f{}][f{}][f{}]".format(speed*51, speed*51, speed*51, speed*51)
+
+    elif direction == 's':          # moving backward
+        return "[r{}][r{}][r{}][r{}]".format(speed*51, speed*51, speed*51, speed*51)
+
+    elif direction == 'a':          # turning left
+        return "[r{}][r{}][f{}][f{}]".format(speed*51, speed*51, speed*51, speed*51)
+        
+    elif direction == 'd':          # turning right
+        return "[f{}][f{}][r{}][r{}]".format(speed*51, speed*51, speed*51, speed*51)
+```
+
+
 When the program starts, it initializes pygame and creates a window (which you must have open to detect keyboard input). It also creates a pygame clock object which controls the speed at which the window updates. A tuple with the RGB values for a shade of blue is assigned to *color_blue* to change the window background to blue so the users can easily identify the window for keyboard inputs.
 ```
 pygame.init()       # initialize pygame
@@ -55,6 +85,13 @@ client =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
 ```
 
+Now we arrive at our main loop, which will be constantly detecting keyboard inputs until the pygame window is closed. We first make sure the *direction* variable is an empty string, in case no keyboard inputs are detected during this iteration of the loop.
+```
+# which direction key is being pressed (wasd), '' if no direction key is pressed
+direction = ''
+```
+
+Then we check if any events have been triggered using *pygame.event.get()*. This will return all the events that were triggered in the previous iteration of the loop in a list format. Using a for loop, we check all the triggered events. If the event is *pygame.QUIT*, the user closed the pygame window, so we tell the rover to stop by sending a formatted command that the speed is 0. To do this, we use the *format_command* function and use the parameters '' as the *direction* and 0 as the *speed*. We then use the *str.encode()* function because we can only send data along the network in a binary format, and the *str.encode()* function does that.
 
 **2. The Server (output.py)** \
 
