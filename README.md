@@ -91,7 +91,44 @@ Now we arrive at our main loop, which will be constantly detecting keyboard inpu
 direction = ''
 ```
 
-Then we check if any events have been triggered using *pygame.event.get()*. This will return all the events that were triggered in the previous iteration of the loop in a list format. Using a for loop, we check all the triggered events. If the event is *pygame.QUIT*, the user closed the pygame window, so we tell the rover to stop by sending a formatted command that the speed is 0. To do this, we use the *format_command* function and use the parameters '' as the *direction* and 0 as the *speed*. We then use the *str.encode()* function because we can only send data along the network in a binary format, and the *str.encode()* function does that.
+Then we check if any events have been triggered using *pygame.event.get()*. This will return all the events that were triggered in the previous iteration of the loop in a list format. Using a for loop, we check all the triggered events. If the event is *pygame.QUIT*, the user closed the pygame window, so we tell the rover to stop by sending a formatted command that the speed is 0. To do this, we use the *format_command* function and use the parameters '' as the *direction* and 0 as the *speed*. We then use the *str.encode()* function because we can only send data along the network in a binary format, and the *str.encode()* function does that. \
+If the event is not *pygame.QUIT*, we check if the event is *pygame.KEYDOWN*. If it is, a key got pressed (not held down). We check if the key for the event is a valid speed key (using *speed_inputs*), and if it is, uses the dictionary value for that key as the speed.
+```
+# gets and checks all the events in queue
+for event in pygame.event.get():
+    if event.type == pygame.QUIT:   # window gets closed
+        client.sendall(format_command('', 0).encode())  # stop rover movement
+        client.close()  # closes connection
+
+        pygame.quit()   # stops pygame
+        exit()          # exits/stops program
+
+    elif event.type == pygame.KEYDOWN:  # a key was pressed (not held)
+        """Checks if any pressed key is a key that changes motor speed for rover
+        (integer from 0 to 5). If it is, speed is the value corresponding to the key."""
+        for valid_speeds in speed_inputs:
+            if event.key == valid_speeds:
+                speed = speed_inputs[valid_speeds]
+```
+
+Next, we check if a direction key (wasd) got pressed (is held down). We do this by checking if any of the valid direction keys that are in the dictionary *direction_inputs* are being held down. We check which keys are being held down by using *pygame.key.get_pressed()*, which returns an array with all the pygame key constants and a boolean value whether or not they are being held down or not. If a direction key is being held down, we use the dictionary value for that key as the direction.
+```
+ """Checks if any directions keys (wasd) keys are being pressed. If it is, direction
+is the character corresponding to the key."""
+for valid_directions in direction_inputs:
+    if pygame.key.get_pressed()[valid_directions]:
+        direction = direction_inputs[valid_directions]
+```
+
+We send the formatted instruction to the rover with our desired direction and speed using the function *format_command*. We use the *str.encode()* function because we can only send data along the network in a binary format, and the *str.encode()* function does that. \
+Finally, we set the window fill colour to a shade of blue and update the display.
+```
+# send the formatted instruction for the four motors to the rover server
+client.sendall(format_command(direction, speed).encode())
+
+screen.fill(color_blue)     # change window background color to blue
+pygame.display.flip()       # update display
+```
 
 **2. The Server (output.py)** \
 
