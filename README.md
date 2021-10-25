@@ -184,28 +184,28 @@ This program only uses keyboard inputs! Also, ensure the program works by first 
 [f102][f102][f102][f102] \
 [f153][f153][f153][f153] \
 [f204][f204][f204][f204] \
-[f255][f255][f255][f255] \
+[f255][f255][f255][f255]
 
 ***REVERSE*** \
 [r51][r51][r51][r51] \
 [r102][r102][r102][r102] \
 [r153][r153][r153][r153] \
 [r204][r204][r204][r204] \
-[r255][r255][r255][r255] \
+[r255][r255][r255][r255]
 
 ***LEFT*** \
 [r51][r51][f51][f51] \
 [r102][r102][f102][f102] \
 [r153][r153][f153][f153] \
 [r204][r204][f204][f204] \
-[r255][r255][f255][f255] \
+[r255][r255][f255][f255]
 
 ***RIGHT*** \
 [f51][f51][r51][r51] \
 [f102][f102][r102][r102] \
 [f153][f153][r153][r153] \
 [f204][f204][r204][r204] \
-[f255][f255][r255][r255] \
+[f255][f255][r255][r255]
 
 **5. So, how is this README relevant to my project?**
 Well, this README will allow you to understand the project's code. This README is a step by step reasoning of the implementation of variables, functions, libraries etc. used. Read this as a plain English version of the code.
