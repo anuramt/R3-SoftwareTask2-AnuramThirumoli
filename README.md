@@ -8,7 +8,7 @@ import pygame   # to get keyboard input
 import socket   # to sent data over network using TCP (to server program)
 ```
 
-The program uses one custom function called *format_command*. It use is to return a formatted string that we can send to the rover. The rover then uses the command to control its four motors using PWM. *format_command* takes two parameters: *direction* and *speed*. *direction* is the characters wasd which are used ot determine how the four motors will turn (forwards or backwards) to achieve the desired rover motion. *speed* is an integer ranging from 0 to 5 (inclusive) which sets the speed of the motor. The function checks what direction and what speed is being passed as arguments to the function and uses if statments to determine the motion of the motors and the PWM speed.
+The program uses one custom function called *format_command*. It use is to return a formatted string that we can send to the rover. The rover then uses the command to control its four motors using PWM. *format_command* takes two parameters: *direction* and *speed*. *direction* is the characters WASD which are used ot determine how the four motors will turn (forwards or backwards) to achieve the desired rover motion. *speed* is an integer ranging from 0 to 5 (inclusive) which sets the speed of the motor. The function checks what direction and what speed is being passed as arguments to the function and uses if statments to determine the motion of the motors and the PWM speed.
 ```
 if direction == '' or speed == 0:   # no movement
 def format_command(direction, speed):
@@ -111,7 +111,7 @@ for event in pygame.event.get():
                 speed = speed_inputs[valid_speeds]
 ```
 
-Next, we check if a direction key (wasd) got pressed (is held down). We do this by checking if any of the valid direction keys that are in the dictionary *direction_inputs* are being held down. We check which keys are being held down by using *pygame.key.get_pressed()*, which returns an array with all the pygame key constants and a boolean value whether or not they are being held down or not. If a direction key is being held down, we use the dictionary value for that key as the direction.
+Next, we check if a direction key (WASD) got pressed (is held down). We do this by checking if any of the valid direction keys that are in the dictionary *direction_inputs* are being held down. We check which keys are being held down by using *pygame.key.get_pressed()*, which returns an array with all the pygame key constants and a boolean value whether or not they are being held down or not. If a direction key is being held down, we use the dictionary value for that key as the direction.
 ```
  """Checks if any directions keys (wasd) keys are being pressed. If it is, direction
 is the character corresponding to the key."""
