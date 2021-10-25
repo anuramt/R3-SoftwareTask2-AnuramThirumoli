@@ -48,7 +48,7 @@ clock = pygame.time.Clock()     # initialize clock, controls speed of window upd
 color_blue = (0, 177, 247)      # used to fill window so users can identify input window
 ```
 
-The *direction* variable is the character represetation of the direction key being pressed and will be used as a parameter for the function *format_command*. The *direction_inputs* variable is a dictionary with all the valid keys that are used for changing the directions (wasd), and for each valid key, there is a character representation of that key.
+The *direction* variable is the character represetation of the direction key being pressed and will be used as a parameter for the function *format_command*. The *direction_inputs* variable is a dictionary with all the valid keys that are used for changing the directions (WASD), and for each valid key, there is a character representation of that key.
 ```
 direction = ''          # which direction key is being pressed (wasd)
 direction_inputs = {    # pygame's keyboard constants to direction character (wasd)
