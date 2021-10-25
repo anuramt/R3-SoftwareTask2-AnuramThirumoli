@@ -131,12 +131,83 @@ pygame.display.flip()       # update display
 ```
 
 **2. The Server (output.py)** \
+The program uses socket to get data over network using TCP from the client program, input.py.
+```
+import socket   # to get formatted command over network using TCP (from client program)
+```
 
+The *HOST* variable is the ip address to connect to when recieving data over network. The ip address '127.0.0.1" is used because that is the localhost for most computers, meaning that we connect only to the current computer using its loopback network interface. This means that other computers will not be able to connect to the client or server and disrupt the processes. We then assign the *PORT* variable as 21420. We are connecting to a non-privileged port (those from 1024 to 65535) because we don't need to get root permissions. 
+```
+HOST = '127.0.0.1'  # standard loopback interface (localhost)
+PORT = 21420        # port to listen on (non-privileged ports are 1024 to 65535)
+```
 
-**3. The Output** \
+Then create a *server* variable which will be a socket that the client connects to. We use the parameters *socket.AF_INET* to use IPv4 ip addresses, and *socket.SOCK_STREAM* to send data using TCP, and bind the server to *PORT* and *HOST* variables.
+```
+ # initializes socket object with IPv4 and TCP, connects to ip address and port
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((HOST, PORT))
+```
 
+Next we listen until the client is connected. This is a blocking call, which means that the client must connect first before the program to continue. When the client connects, it will output a tuple with another socket to get data and the ip address of the computer connecting to the server. We use the variables *data_socket* and *address* to assign the tuples values to it.
+```
+server.listen()     # waits until client has connected
+    
+# gets socket to recieve and transmit data and the ip address the socket is connected to
+data_socket, address = server.accept()
+```
 
-**4. So, how is this README relevant to my project?**
+Finally, using the socket we got from *server.listen()*, we can recieve data from the client. We use a while loop to recieve data until the connection ends, where we break out of the loop. In the loop, every time we recieve data, we print the data. However, we first decode it to a string format using *decode()* which takes binary value and converts it to a string. This print statement prints the formatted command which the client sent based on keyboard input.
+```
+# using the socket recieve and print data
+with data_socket:
+    """Recieves, decodes, and prints data from client program until connection is closed
+    or an error occurs."""
+    while True: 
+        received_data = data_socket.recv(1024)
+
+        if not received_data:
+            break
+
+        print(received_data.decode())   # prints formatted command from client program
+```
+
+**3. Ensuring the program works:** \
+This program only uses keyboard inputs! Also, ensure the program works by first starting the server (output.py), then starting the client (input.py). This is because the client will encounter an error if it does not connect to a server. 
+
+**4. The Output** \
+***NO MOVEMENT*** \
+[f0][f0][f0][f0]
+
+***FORWARD*** \
+[f51][f51][f51][f51] \
+[f102][f102][f102][f102] \
+[f153][f153][f153][f153] \
+[f204][f204][f204][f204] \
+[f255][f255][f255][f255] \
+
+***REVERSE*** \
+[r51][r51][r51][r51] \
+[r102][r102][r102][r102] \
+[r153][r153][r153][r153] \
+[r204][r204][r204][r204] \
+[r255][r255][r255][r255] \
+
+***LEFT*** \
+[r51][r51][f51][f51] \
+[r102][r102][f102][f102] \
+[r153][r153][f153][f153] \
+[r204][r204][f204][f204] \
+[r255][r255][f255][f255] \
+
+***RIGHT*** \
+[f51][f51][r51][r51] \
+[f102][f102][r102][r102] \
+[f153][f153][r153][r153] \
+[f204][f204][r204][r204] \
+[f255][f255][r255][r255] \
+
+**5. So, how is this README relevant to my project?**
 Well, this README will allow you to understand the project's code. This README is a step by step reasoning of the implementation of variables, functions, libraries etc. used. Read this as a plain English version of the code.
 
 **THANK YOU FOR READING!** You can find the demonstrative video to download under the master branch, or watch below:
